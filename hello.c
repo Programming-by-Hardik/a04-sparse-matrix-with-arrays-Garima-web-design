@@ -33,7 +33,44 @@ int main() {
 // Function to convert a matrix into sparse matrix format
 void createSparseMatrix(int sparseMatrix[][3], int originalMatrix[][N], int rows, int cols) {
     //WRITE THE FUNCTION DESCRIPTION HERE
-    
+  void convertToCSR(int rows, int cols, int matrix[rows][cols], 
+                   int **values, int **col_indices, int **row_ptrs, int *nnz) {
+    int count = 0;
+
+    // Calculate the number of non-zero elements
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (matrix[i][j] != 0) {
+                count++;
+            }
+        }
+    }
+
+    // Allocate memory for CSR arrays
+    *values = (int *)malloc(count * sizeof(int));
+    *col_indices = (int *)malloc(count * sizeof(int));
+    *row_ptrs = (int *)malloc((rows + 1) * sizeof(int));
+
+    // Fill the row_ptrs array
+    int index = 0;
+    (*row_ptrs)[0] = 0;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (matrix[i][j] != 0) {
+                (*values)[index] = matrix[i][j];
+                (*col_indices)[index] = j;
+                index++;
+            }
+        }
+        (*row_ptrs)[i + 1] = index;
+    }
+
+    *nnz = count; // Number of non-zero elements
+}
+
+//converts an original matrix into its sparse matrix representation.
+//the sparse matrix format is a 2D array where each row represents a non-zero element in the original matrix.
+//the first row of the sparse matrix specifies the dimensions of the original matrix and the number of non-zero elements.
 
 
 
@@ -47,8 +84,28 @@ void createSparseMatrix(int sparseMatrix[][3], int originalMatrix[][N], int rows
 // Function to print sparse matrix representation
 void printSparseMatrix(int sparseMatrix[][3], int nonZeroCount) {
     //WRITE THE FUNCTION DESCRIPTION HERE
-    
+   void printCSR(int rows, int *values, int *col_indices, int *row_ptrs, int nnz) {
+    printf("Values: ");
+    for (int i = 0; i < nnz; ++i) {
+        printf("%d ", values[i]);
+    }
+    printf("\n");
 
+    printf("Column Indices: ");
+    for (int i = 0; i < nnz; ++i) {
+        printf("%d ", col_indices[i]);
+    }
+    printf("\n");
+
+    printf("Row Pointers: ");
+    for (int i = 0; i <= rows; ++i) {
+        printf("%d ", row_ptrs[i]);
+    }
+    printf("\n");
+}
+
+
+// Prints the sparse matrix in a readable format. The first row of the sparse matrix shows the dimensions of the original matrix and the number of non-zero elements, and the following rows show the position and value of each non-zero element.
 
 
 
