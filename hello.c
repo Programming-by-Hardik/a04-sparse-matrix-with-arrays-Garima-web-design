@@ -33,19 +33,21 @@ int main() {
 // Function to convert a matrix into sparse matrix format
 void createSparseMatrix(int sparseMatrix[][3], int originalMatrix[][N], int rows, int cols) {
     //WRITE THE FUNCTION DESCRIPTION HERE
-   int k = 0;
+   int count = 0;
    for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
          if (originalMatrix[i][j] != 0) {
 
-            sparseMatrix[k][0] = i;
-            sparseMatrix[k][1] = j;
-            sparseMatrix[k][2] = originalMatrix[i][j];
-            k++;
+            sparseMatrix[count + 1][0] = i;
+            sparseMatrix[count + 1][1] = j;
+            sparseMatrix[count + 1][2] = originalMatrix[i][j];
+            count++;
          }
       }
    }
-   sparseMatrix[k][0] = -1;
+   sparseMatrix[0][0] = rows;
+   sparseMatrix[0][1] = cols;
+   sparseMatrix[0][2] = count;
 }
 //converts an original matrix into its sparse matrix representation.
 //the sparse matrix format is a 2D array where each row represents a non-zero element in the original matrix.
@@ -63,13 +65,16 @@ void createSparseMatrix(int sparseMatrix[][3], int originalMatrix[][N], int rows
 // Function to print sparse matrix representation
 void printSparseMatrix(int sparseMatrix[][3], int nonZeroCount) {
     //WRITE THE FUNCTION DESCRIPTION HERE
-    printf("sparse Matrix Represantation (row, colum, value):\n");
+    printf("Dimensions: %d x %d\n",sparseMatrix[0][0], sparseMatrix[0][1]);
+    printf("Number of non-zero elements: %d\n", sparseMatrix[0][2]);
+    printf(:Row column value\n");
     for (int i = 0; i < nonZeroCount; i++) {
         printf("[%d, %d, %d]\n", sparseMatrix[i][0], sparseMatrix[i][1], sparseMatrix[i][2]);
     }
 }
 
-// this function prints the sparse matrix in the formate [row,colum,value] for each non-zero element.
+// Prints the sparse matrix in a readable format. The first row of the sparse matrix shows the dimensions of the original matrix and the number of non-zero elements, and the following rows show the position and value of each non-zero element.
+
 
 
 
